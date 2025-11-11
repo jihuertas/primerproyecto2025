@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h1 class="mb-4">Entradas de {{ autor.nombre }}</h1>
+
+    <div class="row">
+        {% for entrada in entradas %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if entrada.imagen %}
+                    <img src="{{ entrada.imagen.url }}" class="card-img-top" alt="{{ entrada.titulo }}">
+                {% else %}
+                    <img src="https://placehold.co/600x300?text=Sin+Imagen" class="card-img-top" alt="Sin imagen">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ entrada.titulo }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">por {{ entrada.autor }}</h6>
+                    <p class="card-text">{{ entrada.cuerpo|truncatewords:20 }}</p>
+                    <a href="{% url 'detalle_post' pk=entrada.pk %}" class="btn btn-primary">Leer más</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay entradas disponibles para este autor.</p>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'autores' %}" class="btn btn-secondary">Volver a autores</a>
+    </div>
+</div>
+{% endblock %}
